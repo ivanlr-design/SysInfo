@@ -13,16 +13,12 @@ from scapy.all import *
 from colorama import init, Fore, Back, Style
 init(autoreset=True)
 
-#Configurations
-
 PortScannerConfig = {
     "Initial_Port":1, #Puerto al que empezara a buscar
     "Ports_To_Scan":10000 #Puerto al que acaba de buscar
 }
 
 IpRange = "192.168.100.0/24"
-
-
 banner = Fore.RED + ''' 
    _____ _               _                 _____        __       
   / ____| |             | |               |_   _|      / _|      
@@ -495,7 +491,7 @@ class PcInfo():
 
             if cookies:
                 time.sleep(0.6)
-                print(f"{Fore.GREEN}Total Cookies{Style.RESET_ALL}: {Fore.CYAN}{len(cookies)}\n{Style.RESET_ALL}")
+                print(f"\n{Fore.GREEN}Total Cookies{Style.RESET_ALL}: {Fore.CYAN}{len(cookies)}\n{Style.RESET_ALL}")
                 if os.path.exists("Cookies.txt"):
                     os.remove("Cookies.txt")
                 for i in cookies:
@@ -554,6 +550,7 @@ class PcInfo():
                             print(f"[{Fore.GREEN}+{Style.RESET_ALL}] {Fore.BLUE}Trying to connect...!{Style.RESET_ALL}")
                             time.sleep(1)
                             print(f"{Fore.YELLOW}[{Fore.RED}!{Fore.YELLOW}] {Fore.YELLOW}Mysql Root has no password! Vulnerable{Style.RESET_ALL}")
+                            print(f"{Fore.GREEN}Mysql Version: {Fore.RED}{version}{Style.RESET_ALL}")
                             time.sleep(3)
                             break
 
@@ -574,6 +571,7 @@ class PcInfo():
                 print(f"[{Fore.GREEN}+{Style.RESET_ALL}] {Fore.BLUE}Trying to connect...!{Style.RESET_ALL}")
                 time.sleep(1)
                 print(f"{Fore.YELLOW}[{Fore.RED}!{Fore.YELLOW}] {Fore.YELLOW}Mysql Root has no password! Vulnerable{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}Mysql Version: {Fore.RED}{version}{Style.RESET_ALL}")
                 time.sleep(3)
             print(f"\n{Fore.YELLOW}*************************{Fore.GREEN}PORT SCANNING{Fore.YELLOW}*************************{Style.RESET_ALL}")
             time.sleep(0.5)
@@ -664,16 +662,19 @@ class CommandSection():
         pass
 
     def killPid(self, Pid):
-        name = ""
+        finded = False
         try:
             for i in psutil.process_iter():
-                if Pid == i.pid:
+                if int(Pid) == int(i.pid):
                     name = i.name()
-                    os.kill(Pid,signal.SIGTERM)
-
-            return name
+                    os.kill(i.pid,signal.SIGTERM)
+                    finded = True
+                    return name
+            
+            if finded == False:
+                return False
         except:
-            return False
+            return "Error"
     
     def ping_scan(self):
         ips = []
@@ -778,6 +779,25 @@ class CommandSection():
         winreg.CloseKey(key)
         return startup_programs
 
+    def find_process(self,Value):
+        Value = str(Value)
+        finded = False
+        if Value.isdigit():
+            for i in psutil.process_iter():
+                if i.pid == int(Value):
+                    print(F"[{Fore.GREEN}+{Style.RESET_ALL}] Process Finded With Name:{Fore.CYAN}{i.pid}-{i.name()}{Style.RESET_ALL}")
+                    time.sleep(0.5)
+                    finded = True
+        else:
+            for i in psutil.process_iter():
+                if i.name() == Value:
+                    print(F"[{Fore.GREEN}+{Style.RESET_ALL}] Process Finded With pID:{Fore.CYAN}{i.pid}-{i.name()}{Style.RESET_ALL}")
+                    time.sleep(0.5)
+                    finded = True
+        
+        if finded == False:
+            print(F"[{Fore.RED}-{Style.RESET_ALL}] Couldnt find Process or Pid {Fore.YELLOW}{Value}{Style.RESET_ALL}")
+
     def find_mac_manufacturer(self,mac_address):
         formatted_mac = ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2))
 
@@ -796,28 +816,32 @@ class CommandSection():
 
     def Menu(self):
         while True:
-            
+            import platform
+            name = platform.uname().node
             print(f'''\n
+{Fore.CYAN}Hello : {Fore.GREEN}{name} {Fore.YELLOW}{datetime.now().hour}:{datetime.now().minute}{Style.RESET_ALL}
+
         [{Fore.GREEN}1{Style.RESET_ALL}] - {Fore.CYAN} Kill Process {Style.RESET_ALL}
         [{Fore.GREEN}2{Style.RESET_ALL}] - {Fore.CYAN} See IPV4 Information (Own or other){Style.RESET_ALL}
         [{Fore.GREEN}3{Style.RESET_ALL}] - {Fore.CYAN} Analyze current Conexions{Style.RESET_ALL}
         [{Fore.GREEN}4{Style.RESET_ALL}] - {Fore.CYAN} See All STARTUP aplications{Style.RESET_ALL}
         [{Fore.GREEN}5{Style.RESET_ALL}] - {Fore.CYAN} Scan Local network {Style.RESET_ALL}
-        [{Fore.GREEN}6{Style.RESET_ALL}] - {Fore.YELLOW} Go back{Style.RESET_ALL}
-        [{Fore.GREEN}7{Style.RESET_ALL}] - {Fore.RED} Exit {Style.RESET_ALL}
+        [{Fore.GREEN}6{Style.RESET_ALL}] - {Fore.CYAN} Find Process {Style.RESET_ALL}
+        [{Fore.GREEN}7{Style.RESET_ALL}] - {Fore.YELLOW} Go back{Style.RESET_ALL}
+        [{Fore.GREEN}8{Style.RESET_ALL}] - {Fore.RED} Exit {Style.RESET_ALL}
         ''')
-            session = int(input(f"{Fore.GREEN}Select{Style.RESET_ALL}({Fore.CYAN}1{Style.RESET_ALL}-{Fore.CYAN}7{Style.RESET_ALL}): "))
+            session = int(input(f"{Fore.GREEN}Select{Style.RESET_ALL}({Fore.CYAN}1{Style.RESET_ALL}-{Fore.CYAN}8{Style.RESET_ALL}): "))
             if session == 1:
                 session = str(input(f"\n{Fore.GREEN}Enter Process {Fore.CYAN}name {Style.RESET_ALL}or {Fore.CYAN}Pid (PUT EXTENSIONS! ){Style.RESET_ALL}: "))
                 if session.isdigit():
-                    s = self.killPid(session)
+                    s = self.killPid(int(session))
                     if s == False:
                         print(f"{Fore.YELLOW}[{Fore.RED}!{Fore.YELLOW}] {Fore.YELLOW} No process with Pid:{Fore.CYAN} {session}{Style.RESET_ALL}")
                         time.sleep(0.2)
                         input(f"\n{Fore.CYAN}Press {Fore.GREEN}[ENTER]{Fore.CYAN} To continue{Style.RESET_ALL}")
                         os.system("cls")
                     else:
-                        print(f"[{Fore.GREEN}+{Style.RESET_ALL}] {Fore.BLUE}Succesfully process Killed! ({Fore.CYAN}{s}{Style.RESET_ALL}) {Style.RESET_ALL}")
+                        print(f"[{Fore.GREEN}+{Style.RESET_ALL}] {Fore.BLUE}Succesfully process Killed! ({Fore.CYAN}{s}{Style.RESET_ALL}{Fore.BLUE}) {Style.RESET_ALL}")
                         time.sleep(0.2)
                         input(f"\n{Fore.CYAN}Press {Fore.GREEN}[ENTER]{Fore.CYAN} To continue{Style.RESET_ALL}")
                         os.system("cls")
@@ -923,13 +947,20 @@ class CommandSection():
                 input(f"\n{Fore.CYAN}Press {Fore.GREEN}[ENTER]{Fore.CYAN} To continue{Style.RESET_ALL}\n")
                 os.system("cls")
 
-            
             elif session == 6:
+                session = str(input(f"\n{Fore.GREEN}Enter Process {Fore.CYAN}name {Style.RESET_ALL}or {Fore.CYAN}Pid (PUT EXTENSIONS! ){Style.RESET_ALL}: "))
+
+                self.find_process(session)
+
+                input(f"\n{Fore.CYAN}Press {Fore.GREEN}[ENTER]{Fore.CYAN} To continue{Style.RESET_ALL}\n")
+                os.system("cls")
+
+            elif session == 7:
                 os.system("cls")
                 iniciar()
                 break
                 
-            elif session == 7:
+            elif session == 8:
                 sys.exit(0)
 
 
@@ -950,9 +981,12 @@ def iniciar():
                 print(f"\n{Fore.YELLOW}[{Fore.RED}!{Fore.YELLOW}]{Fore.CYAN} Run The program as Administrator! {Style.RESET_ALL}")
                 sys.exit(1)
             while True:
+                name = platform.uname().node
                 os.system("title Shadow Info")
                 time.sleep(0.5)
-                Menu = print(f'''\n
+                Menu = print(f'''
+{Fore.CYAN}Hello : {Fore.GREEN}{name} {Fore.YELLOW}{datetime.now().hour}:{datetime.now().minute}{Style.RESET_ALL}
+
             [{Fore.GREEN}1{Style.RESET_ALL}] - {Fore.CYAN} Analyze system searching for vulnerabilities and information {Style.RESET_ALL}
             [{Fore.GREEN}2{Style.RESET_ALL}] - {Fore.CYAN} Command Section (Killing processes etc) {Style.RESET_ALL}
             [{Fore.GREEN}3{Style.RESET_ALL}] - {Fore.CYAN} Discord / Github{Style.RESET_ALL}

@@ -5,7 +5,7 @@ A tool created To scan your System Searching for vulnerabilities,
 
 # Scan Section
 
-Features:
+Features
 1-See your Own Ipv4 Information
 2-Mac Addresses
 3-Extract Emails
