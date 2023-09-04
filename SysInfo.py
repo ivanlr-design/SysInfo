@@ -1,12 +1,11 @@
 import platform,os,sys,socket,time,win32net
 import webbrowser,signal,pyaudio,winreg
 from typing import Any
-import requests,colorama,ctypes,psutil
+import requests,ctypes,psutil
 import subprocess,re,win32netcon,win32net
 from subprocess import PIPE
 import win32evtlog,re
 import win32evtlogutil,browser_cookie3
-import win32con
 import threading
 import mysql.connector
 from scapy.all import *
@@ -28,6 +27,7 @@ banner = Fore.RED + '''
  |_____/|_| |_|\__,_|\__,_|\___/ \_/\_/   |_____|_| |_|_| \___/  
                                                                  
 '''
+
 class PcInfo():
     def __init__(self,action) -> None:
         if bool(action) == True:
@@ -967,7 +967,6 @@ class CommandSection():
 def iniciar():
     if __name__ == "__main__":
         try:
-            import platform
             if platform.system() != "Windows":
                 print(f"\n{Fore.YELLOW}[{Fore.RED}!{Fore.YELLOW}]{Fore.CYAN} {platform.system()} Is not supported, Run this program in Windows! {Style.RESET_ALL}")
                 sys.exit(1)
@@ -1016,3 +1015,4 @@ def iniciar():
             sys.exit(1)
 animation()
 iniciar()
+

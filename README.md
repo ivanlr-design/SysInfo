@@ -7,15 +7,15 @@ A tool created To scan your System Searching for vulnerabilities,
 
 Features<br>
 1-See your Own Ipv4 Information<br>
-2-Mac Addresses
-3-Extract Emails
-4-Extract Windows Users
-5-Extract Cookies
-6-See if Users have password enabled and the group that they pertain
-7-See if the microphone is in use if yes show you the application
-8-Try to connect to Mysql to find vulnerabilities (This step can be skipped by pressing CTRL+C)
-9-Port Scanning
-10-Process Scanning
+2-Mac Addresses<br>
+3-Extract Emails<br>
+4-Extract Windows Users<br>
+5-Extract Cookies<br>
+6-See if Users have password enabled and the group that they pertain<br>
+7-See if the microphone is in use if yes show you the application<br>
+8-Try to connect to Mysql to find vulnerabilities (This step can be skipped by pressing CTRL+C)<br>
+9-Port Scanning<br>
+10-Process Scanning<br>
 
 # Command Section
 
