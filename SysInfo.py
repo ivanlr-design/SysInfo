@@ -19,6 +19,8 @@ PortScannerConfig = {
 }
 
 IpRange = "192.168.100.0/24"
+
+
 banner = Fore.RED + ''' 
    _____ _               _                 _____        __       
   / ____| |             | |               |_   _|      / _|      
