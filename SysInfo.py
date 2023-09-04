@@ -13,6 +13,8 @@ from scapy.all import *
 from colorama import init, Fore, Back, Style
 init(autoreset=True)
 
+#Configurations
+
 PortScannerConfig = {
     "Initial_Port":1, #Puerto al que empezara a buscar
     "Ports_To_Scan":10000 #Puerto al que acaba de buscar

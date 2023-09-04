@@ -12,3 +12,5 @@ Command Section Allows you to Kill Process by pID or Name, scan ur Network, Sear
 Setting for Scanning Ports and scanning network
 
 ![Alt text](image-2.png)
+
+Thanks to Everybody!
