@@ -5,8 +5,8 @@ A tool created To scan your System Searching for vulnerabilities,
 
 # Scan Section
 
-Features
-1-See your Own Ipv4 Information
+Features<br>
+1-See your Own Ipv4 Information<br>
 2-Mac Addresses
 3-Extract Emails
 4-Extract Windows Users
@@ -19,7 +19,7 @@ Features
 
 # Command Section
 
-Command Section Allows you to Kill Process by pID or Name, scan ur Network, Search for STARTUP aplications, Current Conexions, Ip Information
+Command Section Allows you to Kill Process by pID or Name, scan ur Network, Search for STARTUP aplications, Current Conexions, Ip Information, Find Process
 
 ![Alt text](image-1.png)
 
