@@ -14,3 +14,6 @@ Setting for Scanning Ports and scanning network
 ![Alt text](image-2.png)
 
 Thanks to Everybody!
+
+# Exe
+Run this .exe as Administrator
